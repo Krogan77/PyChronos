@@ -6,24 +6,56 @@ from datetime import datetime, timedelta
 
 @dataclass
 class Chrono:
-	""" **Permet de calculer des durées, possède un nom, une durée totale et peut-être relancée.**
+	"""
+	Decriptions:
+	------------
+	**Permet de calculer des durées, possède un nom, une durée totale et peut-être relancée.**
 	
 	- Utilise l'attribut start pour définir une date de début de session et pouvoir calculer la durée
 	  depuis cette date. Cet attribut n'est défini que lorsqu'une session est en cours, ce qui permet de
 	  l'utilliser pour vérifier si c'est le cas.
-	
+	-
 	- Lorsqu'une session est en cours, la durée totale du chrono est ajouté à la durée de la session seulement pour
 	  être affiché, mais n'est redéfini que lorqu'on termine une session.
-	
+	-
 	- L'attribut duration est converti en dictionnaire pour la sauvegarde et reconstruit ensuite.
+	
+	Attributes:
+	----------
+	- title: str / Titre du chrono.
+	
+	- start: datetime | str | None = None / Heure de début de la session actuelle, permet de calculer les durées.
+	
+	- duration: timedelta | dict = None / Durée totale du chrono.
+	
+	Methods:
+	--------
+	- __post_init__ / Défini les valeurs par défaut.
+	-
+	- __str__ / Affichage de l'objet.
+	- str_durations / Retourne un str des durées.
+	- divide_duration / Formate les durées.
+	-
+	- start_chrono / Défini start à l'heure actuelle pour commencer une session.
+	- get_duration / Renvoie la durée totale et actuelle si une session est en cours.
+	- end / Met fin au chrono et retire la date de start.
+	-
+	- duration_to_dict / Converti un objet timedelta en dictionnaire.
+	- reconstruct_duration / Reconstruit l'objet timedelta à partir d'un dictionnaire.
+	- set_save / Configure les attributs pour la sauvegarde.
+
+	:return:
 	"""
 	
 	title: str  # Titre du chrono
-	start: datetime | None = None  # Heure de début de la session actuelle, permet de calculer les durées.
-	duration: timedelta | dict = None  # Durée totale du chrono. Calculer par une propriété.
+	start: datetime | str | None = None  # Heure de début de la session actuelle, permet de calculer les durées.
+	duration: timedelta | dict = None  # Durée totale du chrono.
 	
 	def __post_init__(self):
 		""" Défini les valeurs par défaut. """
+		
+		if isinstance(self.start, str):
+			self.start = datetime.strptime(self.start, "%c")
 		
 		# Initialisation de duration s'il n'est pas encore un timedelta
 		if self.duration is None:
@@ -38,6 +70,7 @@ class Chrono:
 	def __str__(self):
 		""" Affichage de l'objet """
 		# Titre + durée rendu par la méthdoe strg
+		# Todo: Ajuster l'affichage en fonction des attributs.
 		
 		total, actual = self.str_durations()
 		
@@ -57,11 +90,10 @@ class Chrono:
 			actual = self.divide_duration(actual)
 			return total, actual
 		
-		# Sinon, renvoie le str de la durée total
+		# Sinon, renvoie le str de la durée totale
 		else:
 			return total, None
 			
-	
 	@staticmethod
 	def divide_duration(duration: timedelta) -> str:
 		""" Formate les durées. """
@@ -153,6 +185,9 @@ class Chrono:
 	
 	def set_save(self):
 		""" Configure les attributs pour la sauvegarde. """
+		
+		if isinstance(self.start, datetime):
+			self.start = self.start.strftime("%c")
 		
 		# Range les données de duration dans un dict pour permettre la sauvegarde.
 		self.duration = self.duration_to_dict()

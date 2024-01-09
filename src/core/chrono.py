@@ -45,7 +45,7 @@ def name_chrono(self) -> str:
 	
 	- Effectue les vérifications sur le nom
 	"""
-	print("Wait for a name..")
+	print("Waiting for a name..")
 	
 	title, ok = QInputDialog.getText(self, "New chrono", "Enter a name for new chrono")
 	if not ok or not title:
@@ -76,7 +76,6 @@ def set_lst_chronos(self):
 		item = self.lst_chronos.item(i)
 		chrono_widget = self.lst_chronos.itemWidget(item)
 		chrono_widget.refresh()
-	
 	pass
 
 
@@ -95,17 +94,6 @@ def save(self, chrono: Chrono):
 		
 	# Une fois que le chrono est sauvegardée, on peut reconvertir ses attributs pour utilisation
 	chrono.__post_init__()
-	pass
-
-
-def save_all(self):
-	""" Sauvegarde tous les chronos à la femeture de l'application. """
-
-	# Récupère chaque item de la liste et utilise sa méthode refresh
-	for chrono in self.chronos:
-		save(self, chrono)
-
-	print("All chronos saved.\n")
 	pass
 
 	

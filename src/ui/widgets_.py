@@ -69,6 +69,7 @@ class ChronoWidget(QWidget):
 		print(f"Chrono '{self.chrono.title}' {'stopped' if self.check_chrono() else 'activated'}.\n")
 		self.chrono.activate()
 		self.set_btn_start()
+		self.par.save_chrono(self.chrono)
 	
 	def check_chrono(self):
 		""" Vérifie si le chrono est actif. """

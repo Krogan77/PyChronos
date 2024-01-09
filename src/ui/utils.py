@@ -7,7 +7,7 @@ from pathlib import Path
 
 from tinydb import TinyDB
 
-from src.core.chrono import set_lst_chronos
+from core.chrono import set_lst_chronos
 
 # Chemin du dossier du projet
 CUR_DIR = Path(__file__).resolve().parent.parent.parent

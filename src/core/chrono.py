@@ -5,7 +5,7 @@ from PySide6.QtWidgets import QListWidgetItem, QInputDialog, QMessageBox
 from tinydb import where
 
 from models.chrono import Chrono
-from widgets_ import ChronoWidget
+from ui.widgets_ import ChronoWidget
 
 
 def new_chrono(self):

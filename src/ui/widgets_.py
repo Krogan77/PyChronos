@@ -67,8 +67,12 @@ class ChronoWidget(QWidget):
 	def activate_chrono(self):
 		""" Démarre ou arrête le chrono. """
 		print(f"Chrono '{self.chrono.title}' {'stopped' if self.check_chrono() else 'activated'}.\n")
+		
+		# Active le chrono et redéfini l'état du bouton
 		self.chrono.activate()
 		self.set_btn_start()
+		
+		# Sauvegarde le chrono pour stocker sa date de start
 		self.par.save_chrono(self.chrono)
 	
 	def check_chrono(self):

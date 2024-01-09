@@ -6,7 +6,7 @@
 from PySide6.QtCore import QTimer
 from PySide6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QPushButton, QSizePolicy, QHBoxLayout, QListWidget
 
-from src.core.chrono import new_chrono, load, save_all, delete, save
+from src.core.chrono import new_chrono, load, delete, save
 from utils import update_timer, start_timer, get_db
 
 
@@ -100,6 +100,4 @@ class MainWindow(QMainWindow):
 		""" Définit les actions à effectuer à la fermeture de l'application. """
 		print("❌ Close application.\n")
 		
-		# Sauvegarde tous les chronos
-		save_all(self)
 	#

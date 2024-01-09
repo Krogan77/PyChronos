@@ -160,7 +160,7 @@ cython_debug/
 .idea/
 
 # Personal
-chrono.json
+chronos.json
 notes.txt
 note.txt
 memos.txt

@@ -1,3 +1,5 @@
+
+
 """ Contient la classe Chrono. """
 
 from dataclasses import dataclass
@@ -17,8 +19,6 @@ class Chrono:
 	-
 	- Lorsqu'une session est en cours, la durée totale du chrono est ajouté à la durée de la session seulement pour
 	  être affiché, mais n'est redéfini que lorqu'on termine une session.
-	-
-	- L'attribut duration est converti en dictionnaire pour la sauvegarde et reconstruit ensuite.
 	
 	Attributes:
 	----------
@@ -37,8 +37,8 @@ class Chrono:
 	- divide_duration / Formate les durées.
 	-
 	- start_chrono / Défini start à l'heure actuelle pour commencer une session.
-	- get_duration / Renvoie la durée totale et actuelle si une session est en cours.
-	- end / Met fin au chrono et retire la date de start.
+	- get_duration / Renvoie la durée totale, et actuelle si une session est en cours.
+	- end / Met fin au chrono, redéfini la durée totale et reset start à None.
 	-
 	- duration_to_dict / Converti un objet timedelta en dictionnaire.
 	- reconstruct_duration / Reconstruit l'objet timedelta à partir d'un dictionnaire.
@@ -74,7 +74,7 @@ class Chrono:
 		
 		total, actual = self.str_durations()
 		
-		return f"Chrono{self.title}\ntotal={total}\nActual={actual}"
+		return f"{self.title}\nTotal={total}\nActual={actual}"
 	
 	def str_durations(self):
 		""" Retourne un str des durées. """
@@ -112,6 +112,13 @@ class Chrono:
 	#
 	# -----------------LOGIC SESSION------------------ #
 	
+	def activate(self):
+		""" Démarre ou arrête le chrono. """
+		if self.start is None:
+			self.start_chrono()
+		else:
+			self.end()
+	
 	def start_chrono(self):
 		""" Défini start à l'heure actuelle pour commencer une session """
 		
@@ -123,9 +130,8 @@ class Chrono:
 		else:
 			raise Exception(f"⚠️ start is not None !!")
 	
-	@property
 	def get_duration(self) -> (timedelta, timedelta):
-		""" Renvoie la durée totale et actuelle si une session est en cours. """
+		""" Renvoie la durée totale, et actuelle si une session est en cours. """
 		
 		# Calcule la durée à l'aide de start et de l'heure actuelle puis la renvoie.
 		if isinstance(self.start, datetime):
@@ -138,13 +144,13 @@ class Chrono:
 		elif self.start is None:
 			return self.duration, None
 		else:
-			raise ValueError(f"⚠️ self.start {type(self.start)} !!")
+			raise ValueError(f"⚠️ >>> type(self.start)\n{type(self.start)}")
 
 	def end(self):
-		""" Met fin au chrono et retire la date de start. """
+		""" Met fin au chrono, redéfini la durée totale et reset start à None. """
 		
-		if self.start is None:
-			raise Exception(f"⚠️ self.start is None !!")
+		if not isinstance(self.start, datetime):
+			raise ValueError(f"⚠️ >>> type(self.start)\n{type(self.start)}")
 		
 		# Récupère la durée de la session actuelle et recalcule la durée totale.
 		self.duration = self.get_duration()[0]

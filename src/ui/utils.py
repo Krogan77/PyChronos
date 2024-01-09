@@ -14,8 +14,14 @@ CUR_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 def get_db():
-	""" Crée et renvoie le fichier de sauvegarde """
-	file = CUR_DIR / "data" / "chronos.json"
+	""" Crée et Renvoie la base de données. """
+	
+	# Crée le dossier data s'il n'existe pas
+	data_dir = CUR_DIR / "data"
+	data_dir.mkdir(exist_ok=True)
+	
+	# Crée et renvoie le fichier de sauvegarde
+	file = data_dir / "chronos.json"
 	if not file.exists():
 		file.touch()
 	db = TinyDB(file, indent=4)

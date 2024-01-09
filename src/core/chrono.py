@@ -8,15 +8,16 @@ from models.chrono import Chrono
 from ui.widgets_ import ChronoWidget
 
 
-def new_chrono(self):
+def new_chrono(self, title: str = None):
 	""" Crée un nouveau chrono. """
 	
 	print("  ➡️   Create new chrono:\n")
 	
-	# Demande un nom à l'utilisateur
-	title = name_chrono(self)
-	if not title:
-		return
+	if title is None:
+		# Demande un nom à l'utilisateur
+		title = name_chrono(self)
+		if not title:
+			return
 	
 	# Crée le chrono
 	chrono = Chrono(title)
@@ -35,6 +36,10 @@ def new_chrono(self):
 	self.lst_chronos.insertItem(0, item)
 	self.lst_chronos.setItemWidget(item, chrono_widget)
 	item.setSizeHint(chrono_widget.sizeHint())
+	
+	self.lst_chronos.setCurrentRow(0)
+	
+	self.btn_delete.setEnabled(True)
 	
 	print(f"A new chrono ('{title}') as been created.\n")
 	pass
@@ -105,8 +110,8 @@ def load(self):
 	chronos = self.db.all()
 	
 	if not chronos:
-		print("No chronos found.\n")
-		self.btn_delete.setEnabled(False)
+		print("No chronos found.\nCreate a base chrono.\n")
+		new_chrono(self, title="Best Chrono")
 		return
 	
 	self.lst_chronos.clear()

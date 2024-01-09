@@ -49,12 +49,12 @@ class MainWindow(QMainWindow):
 		self.btn_layout = QHBoxLayout()
 		self.main_layout.addLayout(self.btn_layout)
 		
-		self.btn_new = QPushButton("New chrono")
+		self.btn_new = QPushButton("New")
 		self.btn_new.setFixedSize(100, 30)
 		self.btn_new.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
 		self.btn_layout.addWidget(self.btn_new)
 		
-		self.btn_delete = QPushButton("Delete chrono")
+		self.btn_delete = QPushButton("Delete")
 		self.btn_delete.setFixedSize(100, 30)
 		self.btn_delete.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
 		self.btn_delete.setEnabled(False)
@@ -62,7 +62,6 @@ class MainWindow(QMainWindow):
 		
 		self.lst_chronos = QListWidget()
 		self.main_layout.addWidget(self.lst_chronos)
-		
 		pass
 	
 	#

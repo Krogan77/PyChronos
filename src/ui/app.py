@@ -2,12 +2,19 @@
 
 """ class MainWindow """
 
+import sys
+import io
 
 from PySide6.QtCore import QTimer
 from PySide6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QPushButton, QSizePolicy, QHBoxLayout, QListWidget
 
 from core.chrono import new_chrono, load, delete, save
 from ui.utils import update_timer, start_timer, get_db
+
+
+# Forcer l'encoding 'utf-8' pour éviter les erreurs d'encodage
+# Change l'encodage de la console en utf-8
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 
 class MainWindow(QMainWindow):

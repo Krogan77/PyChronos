@@ -16,6 +16,7 @@ class ChronoWidget(QWidget):
 		
 		self.setup_ui()
 		self.setup_connections()
+		self.set_default_values()
 	
 	def setup_ui(self):
 		""" Défini l'interface utilisateur. """
@@ -26,19 +27,48 @@ class ChronoWidget(QWidget):
 		self.lb_title = QLabel(self.chrono.__str__())
 		self.main_layout.addWidget(self.lb_title)
 		
-		self.btn_start = QPushButton("Start")
-		self.btn_start.setFixedSize(80, 30)
+		self.btn_start = QPushButton()
+		self.btn_start.setCheckable(True)
+		self.btn_start.setFixedSize(60, 30)
 		self.main_layout.addWidget(self.btn_start)
-		pass
-	
-	#
 	
 	def setup_connections(self):
 		""" Défini les connexions entre les widgets. """
-		self.btn_start.clicked.connect(self.chrono.activate)
+		self.btn_start.clicked.connect(self.activate_chrono)
 		pass
 	
+	def set_default_values(self):
+		""" Défini les valeurs par défaut. """
+		
+		# Modification du bouton start
+		self.set_btn_start(checked=True)
+	
 	#
+	
+	def set_btn_start(self, checked: bool = False):
+		""" **Modification du bouton start.**
+		
+		:param checked: Si True, redéfini l'état du bouton start.
+		"""
+		
+		# Vérifie l'état du chrono
+		check = self.check_chrono()
+		
+		# Défini le texte du bouton en fonction de l'état du chrono
+		text = "Start" if not check else "Stop"
+		self.btn_start.setText(text)
+		
+		# Si checked est True, défini l'état du bouton comme égale à celui du chrono
+		if checked:
+			self.btn_start.setChecked(check)
+		
+	#
+	
+	def activate_chrono(self):
+		""" Démarre ou arrête le chrono. """
+		print(f"Chrono '{self.chrono.title}' {'stopped' if self.check_chrono() else 'activated'}.\n")
+		self.chrono.activate()
+		self.set_btn_start()
 	
 	def check_chrono(self):
 		""" Vérifie si le chrono est actif. """
@@ -51,4 +81,3 @@ class ChronoWidget(QWidget):
 		""" Met à jour le widget. """
 		if self.check_chrono():
 			self.lb_title.setText(self.chrono.__str__())
-		pass

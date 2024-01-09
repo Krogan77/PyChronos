@@ -6,24 +6,29 @@
 from PySide6.QtCore import QTimer
 from PySide6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QPushButton, QSizePolicy, QHBoxLayout, QListWidget
 
-from src.core.chrono import new_chrono
-from utils import update_timer, start_timer
+from src.core.chrono import new_chrono, load, save_all, delete
+from utils import update_timer, start_timer, get_db
 
 
 class MainWindow(QMainWindow):
 	""" class MainWindow """
-
+	
 	def __init__(self):
 		super().__init__()
-		self.setWindowTitle("Chrono")
-		self.setMinimumSize(240, 120)
-		self.resize(240, 450)
+		self.setWindowTitle("PyChronos")
+		self.setMinimumSize(250, 120)
+		self.resize(250, 450)
 		
+		print("\n🚀 Application started.\n")
+		
+		# Création de l'ui
 		self.setup_ui()
 		self.setup_connections()
+		
+		# Initialisation des variables et valeurs par défaut
 		self.init_variables()
 		self.default_values()
-		
+	
 	#
 	def setup_ui(self):
 		""" Défini l'interface utilisateur. """
@@ -45,6 +50,7 @@ class MainWindow(QMainWindow):
 		self.btn_delete = QPushButton("Delete chrono")
 		self.btn_delete.setFixedSize(100, 30)
 		self.btn_delete.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
+		self.btn_delete.setEnabled(False)
 		self.btn_layout.addWidget(self.btn_delete)
 		
 		self.lst_chronos = QListWidget()
@@ -56,24 +62,39 @@ class MainWindow(QMainWindow):
 	def setup_connections(self):
 		""" Défini les connexions entre les widgets. """
 		self.btn_new.clicked.connect(lambda: new_chrono(self))
+		
+		self.btn_delete.clicked.connect(lambda: delete(self))
 		pass
 	
 	def init_variables(self):
 		""" Initialise les variables. """
 		
+		# Stock les chronos pour un accès plus direct
 		self.chronos = []
 		
+		# Récupère la base de données
+		self.db = get_db()
+		print("✅ Database loaded.\n")
+		
+		# Timer servant à mettre à jour l'affichage des chronos continuellement
 		self.timer = [0, QTimer()]
 		self.timer[1].timeout.connect(lambda: update_timer(self))
 		start_timer(self, interval=50)
+		print("✅ Timer started.\n")
 		pass
 	
 	#
 	def default_values(self):
 		""" Défini les valeurs par défaut. """
 		
-		
+		load(self)
 		
 		pass
 	
+	def closeEvent(self, event):
+		""" Définit les actions à effectuer à la fermeture de l'application. """
+		print("❌ Close application.\n")
+		
+		# Sauvegarde tous les chronos
+		save_all(self)
 	#

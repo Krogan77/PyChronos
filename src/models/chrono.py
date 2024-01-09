@@ -36,6 +36,7 @@ class Chrono:
 	- str_durations / Retourne un str des durées.
 	- divide_duration / Formate les durées.
 	-
+	- activate / Démarre ou arrête le chrono.
 	- start_chrono / Défini start à l'heure actuelle pour commencer une session.
 	- get_duration / Renvoie la durée totale, et actuelle si une session est en cours.
 	- end / Met fin au chrono, redéfini la durée totale et reset start à None.
@@ -74,7 +75,14 @@ class Chrono:
 		
 		total, actual = self.str_durations()
 		
-		return f"{self.title}\nTotal={total}\nActual={actual}"
+		text_with_actual = f"\nTotal: {total}\nActual: {actual}"
+		text_without_actual = f"\nTotal: {total}\n-------"
+		
+		if actual and actual != total:
+			durations = text_with_actual if total != actual else text_without_actual
+			return f"⏱️ {self.title.capitalize()}{durations}"
+		else:
+			return f"⏱️ {self.title.capitalize()}{text_without_actual}"
 	
 	def str_durations(self):
 		""" Retourne un str des durées. """
@@ -83,20 +91,32 @@ class Chrono:
 		total, actual = self.get_duration()
 		
 		# Formate la durée totale
-		total = self.divide_duration(total)
+		total = self.str_duration(total)
 		
 		# Si une session est en cours, renvoie le str des deux durées
 		if actual:
-			actual = self.divide_duration(actual)
+			actual = self.str_duration(actual)
 			return total, actual
 		
 		# Sinon, renvoie le str de la durée totale
 		else:
 			return total, None
+	
+	def str_duration(self, duration: timedelta) -> str:
+		""" Retourne un str de la durée demandée. """
+		
+		hours, minutes, seconds = self.divide_duration(duration)
+		
+		str_ = ""
+		str_ += f"{hours}h " if hours else ""
+		str_ += f"{minutes:02}m " if minutes else ""
+		str_ += f"{seconds:02}s" if hours < 1 else ""
+		
+		return str_
 			
 	@staticmethod
-	def divide_duration(duration: timedelta) -> str:
-		""" Formate les durées. """
+	def divide_duration(duration: timedelta) -> tuple:
+		""" Divise les durées. """
 		# Renvoie un str de la durée demandé.
 		
 		# Récupère les secondes dans le timedelta.
@@ -107,7 +127,7 @@ class Chrono:
 		minutes, seconds = divmod(remainder, 60)
 		
 		# Formate la chaîne avec des heures et des minutes
-		return f"{hours}h {minutes:02}m {seconds:02}s"
+		return hours, minutes, seconds
 	
 	#
 	# -----------------LOGIC SESSION------------------ #

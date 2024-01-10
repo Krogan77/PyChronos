@@ -39,29 +39,36 @@ class MainWindow(QMainWindow):
 	def setup_ui(self):
 		""" Défini l'interface utilisateur. """
 		
+		# Widget central
 		self.central_widget = QWidget()
 		self.setCentralWidget(self.central_widget)
 		
+		# Layout principal (layout bouton, liste des chronos, bouton delete)
 		self.main_layout = QVBoxLayout()
 		self.central_widget.setLayout(self.main_layout)
 		
+		# Layout des boutons (new, rename)
 		self.btn_layout = QHBoxLayout()
 		self.main_layout.addLayout(self.btn_layout)
 		
+		# Bouton new
 		self.btn_new = QPushButton("New")
 		self.btn_new.setFixedSize(100, 30)
 		self.btn_new.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
 		self.btn_layout.addWidget(self.btn_new)
 		
+		# Bouton rename
 		self.btn_rename = QPushButton("Rename")
 		self.btn_rename.setFixedSize(100, 30)
 		self.btn_rename.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
 		self.btn_rename.setEnabled(False)
 		self.btn_layout.addWidget(self.btn_rename)
 		
+		# Liste des chronos
 		self.lst_chronos = QListWidget()
 		self.main_layout.addWidget(self.lst_chronos)
 		
+		# Bouton delete
 		self.btn_delete = QPushButton("Delete")
 		self.btn_delete.setFixedHeight(30)
 		self.btn_delete.setEnabled(False)
@@ -98,12 +105,17 @@ class MainWindow(QMainWindow):
 	#
 	def default_values(self):
 		""" Défini les valeurs par défaut. """
+		
+		# Charge les chronos depuis la base de données
 		load(self)
 		pass
 	
 	#
 	def save_chrono(self, chrono):
-		""" Sauvegarde le chrono dans la base de données. """
+		""" Sauvegarde le chrono dans la base de données.
+		
+		- Les chronos sont sauvegardées lorsqu'ils sont modifiés.
+		"""
 		save(self, chrono)
 		
 	def closeEvent(self, event):

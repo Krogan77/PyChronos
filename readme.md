@@ -23,7 +23,7 @@ Clone the repository using the following command :
 git clone https://github.com/Krogan77/PyChronos.git
 ```
 
-## Configuration (Git Bash)
+## Configuration
 Create a virtual environment and install the required dependencies specified in the file `requirements.txt` :
 ### Linux
 ```bash

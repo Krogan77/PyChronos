@@ -40,21 +40,31 @@ def new_chrono(self, title: str = None):
 	self.lst_chronos.setCurrentRow(0)
 	
 	self.btn_delete.setEnabled(True)
+	self.btn_rename.setEnabled(True)
 	
 	print(f"A new chrono ('{title}') as been created.\n")
 	pass
 
 
-def name_chrono(self) -> str:
+def name_chrono(self, rename: bool = False) -> str | None:
 	""" **Demande le nom du chrono à l'utilisateur.**
 	
 	- Effectue les vérifications sur le nom
 	"""
 	print("Waiting for a name..")
 	
-	title, ok = QInputDialog.getText(self, "New chrono", "Enter a name for new chrono")
+	if rename:
+		chrono, item, widget = get_chrono(self)
+		title = "Rename chrono"
+		text = f"Enter a new name for chrono ('{chrono.title}')"
+	else:
+		chrono, item, widget = None, None, None
+		title = "New chrono"
+		text = "Enter a name for new chrono"
+	
+	title, ok = QInputDialog.getText(self, title, text)
 	if not ok or not title:
-		return ""
+		return
 	
 	# Vérification des erreurs
 	error = ""
@@ -62,13 +72,26 @@ def name_chrono(self) -> str:
 		error = "⚠️ Name too long ! 16 chars max.\n"
 	elif self.db.contains(where("title") == title):
 		error = "⚠️ This chronos already exists !\n"
+	elif rename and title == chrono.title:
+		error = "⚠️ This name is the same as the current one !\n"
 	
 	if error:
 		QMessageBox.information(self, "🛑 Error detected:", error)
 		print("🛑 Error detected:", error)
-		return ""
+		return
 	
 	print(f"✅ Name ('{title}') is valid.\n")
+	
+	if rename:
+		# Récupère le chrono sélectionné et le renomme
+		self.db.update({'title': title}, where("title") == chrono.title)
+		chrono.title = title
+		
+		# Update l'item de la liste
+		widget.refresh(hard=True)
+		
+		print(f"Chrono ('{chrono.title}') renamed.\n")
+		return
 	
 	return title
 	
@@ -137,6 +160,7 @@ def load(self):
 	print(f"{nbr} chrono{'s' if nbr > 1 else ''} found.\n")
 	
 	self.btn_delete.setEnabled(True)
+	self.btn_rename.setEnabled(True)
 	self.lst_chronos.setCurrentRow(0)
 		
 	pass
@@ -149,16 +173,19 @@ def delete(self):
 	
 	if not self.chronos:
 		self.btn_delete.setEnabled(False)
+		self.btn_rename.setEnabled(False)
 		return
 	
-	# Récupère l'item sélectionné
-	item = self.lst_chronos.currentItem()
+	chrono, item = get_chrono(self)[:2]
 	
-	# Récupère le widget de l'item
-	chrono_widget = self.lst_chronos.itemWidget(item)
-	
-	# Récupère le chrono
-	chrono = chrono_widget.chrono
+	# Demande une confirmation à l'utilisateur
+	message = f"Are you sure you want to delete the chrono ('{chrono.title}') ?"
+	# noinspection PyUnresolvedReferences
+	reply = QMessageBox.question(self, "Delete chrono", message, QMessageBox.Yes | QMessageBox.No)
+	# noinspection PyUnresolvedReferences
+	if not reply == QMessageBox.Yes:
+		print("❌ Canceled\n➡️\n")
+		return False
 	
 	# Supprime le chrono de la liste
 	self.chronos.remove(chrono)
@@ -171,8 +198,20 @@ def delete(self):
 	
 	if not self.chronos:
 		self.btn_delete.setEnabled(False)
+		self.btn_rename.setEnabled(False)
 	
 	print(f"Chrono ('{chrono.title}') deleted.\n")
+
+
+def get_chrono(self):
+	""" Récupère le widget et le chrono sélectionné. """
+	# Récupère l'item sélectionné
+	item = self.lst_chronos.currentItem()
+	# Récupère le widget de l'item
+	chrono_widget = self.lst_chronos.itemWidget(item)
+	# Récupère le chrono
+	chrono = chrono_widget.chrono
+	return chrono, item, chrono_widget
 
 #
 

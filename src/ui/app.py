@@ -8,12 +8,11 @@ import io
 from PySide6.QtCore import QTimer
 from PySide6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QPushButton, QSizePolicy, QHBoxLayout, QListWidget
 
-from core.chrono import new_chrono, load, delete, save
+from core.chrono import new_chrono, load, delete, save, name_chrono
 from ui.utils import update_timer, start_timer, get_db
 
 
-# Forcer l'encoding 'utf-8' pour éviter les erreurs d'encodage
-# Change l'encodage de la console en utf-8
+# Force l'encodage de la console en utf-8 pour éviter les erreurs
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 
@@ -54,20 +53,28 @@ class MainWindow(QMainWindow):
 		self.btn_new.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
 		self.btn_layout.addWidget(self.btn_new)
 		
-		self.btn_delete = QPushButton("Delete")
-		self.btn_delete.setFixedSize(100, 30)
-		self.btn_delete.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
-		self.btn_delete.setEnabled(False)
-		self.btn_layout.addWidget(self.btn_delete)
+		self.btn_rename = QPushButton("Rename")
+		self.btn_rename.setFixedSize(100, 30)
+		self.btn_rename.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
+		self.btn_rename.setEnabled(False)
+		self.btn_layout.addWidget(self.btn_rename)
 		
 		self.lst_chronos = QListWidget()
 		self.main_layout.addWidget(self.lst_chronos)
+		
+		self.btn_delete = QPushButton("Delete")
+		# self.btn_delete.setFixedSize(100, 30)
+		# self.btn_delete.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
+		self.btn_delete.setEnabled(False)
+		self.main_layout.addWidget(self.btn_delete)
 		pass
 	
 	#
 	def setup_connections(self):
 		""" Défini les connexions entre les widgets. """
 		self.btn_new.clicked.connect(lambda: new_chrono(self))
+		
+		self.btn_rename.clicked.connect(lambda: name_chrono(self, rename=True))
 		
 		self.btn_delete.clicked.connect(lambda: delete(self))
 		pass
@@ -92,9 +99,7 @@ class MainWindow(QMainWindow):
 	#
 	def default_values(self):
 		""" Défini les valeurs par défaut. """
-		
 		load(self)
-		
 		pass
 	
 	#

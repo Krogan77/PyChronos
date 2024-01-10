@@ -82,7 +82,7 @@ class ChronoWidget(QWidget):
 		else:
 			return True
 		
-	def refresh(self):
+	def refresh(self, hard: bool = False):
 		""" Met à jour le widget. """
-		if self.check_chrono():
+		if self.check_chrono() or hard:
 			self.lb_title.setText(self.chrono.__str__())

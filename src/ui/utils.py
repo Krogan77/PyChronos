@@ -7,8 +7,6 @@ from pathlib import Path
 
 from tinydb import TinyDB
 
-from core.chrono import set_lst_chronos
-
 # Chemin du dossier du projet
 CUR_DIR = Path(__file__).resolve().parent.parent.parent
 
@@ -35,15 +33,13 @@ def get_db():
 def start_timer(self, interval: int = 1000):
 	""" Démarre le timer. """
 	
-	self.timer[1].start(interval)
+	self.timer.start(interval)
 	pass
 
 
 def update_timer(self):
 	""" Met à jour le timer. """
-	
-	self.timer[0] += 1
-	
+	from core.chrono import set_lst_chronos
 	set_lst_chronos(self)
 	pass
 
@@ -51,6 +47,6 @@ def update_timer(self):
 def stop_timer(self):
 	""" Arrête le timer. """
 	
-	self.timer[1].stop()
+	self.timer.stop()
 	pass
 

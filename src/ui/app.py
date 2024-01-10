@@ -88,9 +88,9 @@ class MainWindow(QMainWindow):
 		self.db = get_db()
 		print("✅ Database loaded.\n")
 		
-		# Timer servant à mettre à jour l'affichage des chronos continuellement
-		self.timer = [0, QTimer()]
-		self.timer[1].timeout.connect(lambda: update_timer(self))
+		# Timer servant à mettre à jour l'affichage des chronos continuellement (20 fois par seconde)
+		self.timer = QTimer()
+		self.timer.timeout.connect(lambda: update_timer(self))
 		start_timer(self, interval=50)
 		print("✅ Timer started.\n")
 		pass

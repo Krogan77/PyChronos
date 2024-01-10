@@ -22,7 +22,7 @@ class MainWindow(QMainWindow):
 	def __init__(self):
 		super().__init__()
 		self.setWindowTitle("PyChronos")
-		self.setMinimumSize(250, 120)
+		self.setMinimumSize(250, 160)
 		self.resize(250, 450)
 		
 		print("\n🚀 Application started.\n")
@@ -63,8 +63,7 @@ class MainWindow(QMainWindow):
 		self.main_layout.addWidget(self.lst_chronos)
 		
 		self.btn_delete = QPushButton("Delete")
-		# self.btn_delete.setFixedSize(100, 30)
-		# self.btn_delete.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
+		self.btn_delete.setFixedHeight(30)
 		self.btn_delete.setEnabled(False)
 		self.main_layout.addWidget(self.btn_delete)
 		pass

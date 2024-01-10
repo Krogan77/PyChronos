@@ -7,9 +7,9 @@ My first public project. PyChronos is an application that lets you create and ru
 ![PyChronos Interface](/images/screenshot-demo.png)
 
 ## Features
-- Start and stop stopwatches at will
-- Stopwatches continue to run even after you close the application 
-- Restart a stopwatch as many times as necessary 
+- Start and stop stopwatches at will.
+- Stopwatches continue to run even after you close the application.
+- Restart a stopwatch as many times as necessary.
 - Rename and delete stopwatches at will.
 
 ## Technologies used

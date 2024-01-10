@@ -69,9 +69,14 @@ class Chrono:
 	# -----------------  STR  ----------------------- #
 	
 	def __str__(self):
-		""" Affichage de l'objet """
-		# Titre + durée rendu par la méthdoe strg
-		# Todo: Ajuster l'affichage en fonction des attributs.
+		""" **Affichage du chrono**
+		
+		- Affiche le titre du chrono, la durée totale et la durée actuelle si une session est en cours.
+		- Si la durée totale est égale à la durée actuelle, n'affiche pas la durée actuelle.
+		- Si la durée actuelle est égale à 0, n'affiche pas la durée actuelle.
+		- Si la durée est supérieure à 1h, n'affiche pas les secondes.
+		:return:
+		"""
 		
 		total, actual = self.str_durations()
 		
@@ -103,10 +108,12 @@ class Chrono:
 			return total, None
 	
 	def str_duration(self, duration: timedelta) -> str:
-		""" Retourne un str de la durée demandée. """
+		""" Retourne un str formaté de la durée demandée. """
 		
+		# Divise la durée
 		hours, minutes, seconds = self.divide_duration(duration)
 		
+		# Formate la chaîne avec ce qui se trouve dans la durée
 		str_ = ""
 		str_ += f"{hours}h " if hours else ""
 		str_ += f"{minutes:02}m " if minutes else ""
@@ -126,7 +133,7 @@ class Chrono:
 		hours, remainder = divmod(total_seconds, 3600)
 		minutes, seconds = divmod(remainder, 60)
 		
-		# Formate la chaîne avec des heures et des minutes
+		# Renvoie les heures, les minutes et les secondes
 		return hours, minutes, seconds
 	
 	#

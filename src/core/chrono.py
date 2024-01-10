@@ -1,6 +1,8 @@
 
 
 """ Contient les fonctions de gestion de chrono. """
+
+
 from PySide6.QtWidgets import QListWidgetItem, QInputDialog, QMessageBox
 from tinydb import where
 
@@ -53,6 +55,7 @@ def name_chrono(self, rename: bool = False) -> str | None:
 	"""
 	print("Waiting for a name..")
 	
+	# Définition des variables en fonction de rename
 	if rename:
 		chrono, item, widget = get_chrono(self)
 		name = chrono.title
@@ -64,6 +67,7 @@ def name_chrono(self, rename: bool = False) -> str | None:
 		title = "New chrono"
 		text = "Enter a name for new chrono"
 	
+	# Demande un nom à l'utilisateur
 	title, ok = QInputDialog.getText(self, title, text, text=name)
 	if not ok or not title:
 		return

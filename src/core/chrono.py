@@ -55,14 +55,16 @@ def name_chrono(self, rename: bool = False) -> str | None:
 	
 	if rename:
 		chrono, item, widget = get_chrono(self)
+		name = chrono.title
 		title = "Rename chrono"
 		text = f"Enter a new name for chrono ('{chrono.title}')"
 	else:
 		chrono, item, widget = None, None, None
+		name = ""
 		title = "New chrono"
 		text = "Enter a name for new chrono"
 	
-	title, ok = QInputDialog.getText(self, title, text)
+	title, ok = QInputDialog.getText(self, title, text, text=name)
 	if not ok or not title:
 		return
 	

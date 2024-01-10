@@ -18,9 +18,9 @@ My first public project. PyChronos is an application that lets you create and ru
 - TinyDB
 
 ## Installation
-Clone the repository using the following command :
+Clone the repository using the following command and move inside the folder :
 ```bash
-git clone https://github.com/Krogan77/PyChronos.git
+git clone https://github.com/Krogan77/PyChronos.git && cd PyChronos
 ```
 
 ## Configuration

@@ -1,7 +1,7 @@
 # PyChronos
 
 ## Description
-My first public project. PyChronos is an application that lets you create and run several stopwatches simultaneously. It is designed to continue tracking time even after the application has been closed.
+My first public project. PyChronos is a small application that lets you create and run several stopwatches simultaneously. It is designed to continue tracking time even after the application has been closed.
 
 ## Overview
 ![PyChronos Interface](/images/screenshot-demo.png)
@@ -24,7 +24,7 @@ git clone https://github.com/Krogan77/PyChronos.git && cd PyChronos
 ```
 
 ## Configuration
-Create a virtual environment and install the required dependencies specified in the file `requirements.txt` :
+Create a virtual environment and install the required dependencies specified in the `requirements.txt` file :
 ### Linux
 ```bash
 python -m venv env
@@ -45,7 +45,7 @@ pip install -r requirements.txt
 ```
 
 ## Use
-To launch the application, run the file main.py :
+To launch the application, run the `main.py` file :
 #### (from the root folder 'PyChronos')
 ```bash
 python src/main.py

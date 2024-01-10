@@ -42,11 +42,3 @@ def update_timer(self):
 	from core.chrono import set_lst_chronos
 	set_lst_chronos(self)
 	pass
-
-
-def stop_timer(self):
-	""" Arrête le timer. """
-	
-	self.timer.stop()
-	pass
-

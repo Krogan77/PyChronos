@@ -31,10 +31,10 @@ python -m venv env
 source env/bin/activate
 pip install -r requirements.txt
 ```
-### Windows bash
+### Windows bash (Git Bash)
 ```bash
 python -m venv env
-env\Scripts\activate.bat
+env\Scripts\activate
 pip install -r requirements.txt
 ```
 ### Windows cmd

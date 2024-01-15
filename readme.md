@@ -2,10 +2,12 @@
 
 ***
 ## Description
-My first public project. PyChronos is a small application that lets you create and run several stopwatches simultaneously. It is designed to continue tracking time even after the application has been closed.
+PyChronos is a small application that lets you create and run several stopwatches simultaneously. It is designed to continue tracking time even after the application has been closed.
 
 ***
 ## Overview
+
+![PyChronos Interface](/images/screenshot-demo.png)
 ![PyChronos Interface](/images/screenshot-demo-2.png)
 
 ***

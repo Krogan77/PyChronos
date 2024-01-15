@@ -6,6 +6,7 @@ import sys
 import io
 
 from PySide6.QtCore import QTimer
+from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QPushButton, QSizePolicy, QHBoxLayout, QListWidget
 
 from core.chrono import new_chrono, load, delete, save, name_chrono
@@ -22,6 +23,7 @@ class MainWindow(QMainWindow):
 	def __init__(self):
 		super().__init__()
 		self.setWindowTitle("PyChronos")
+		self.setWindowIcon(QIcon("icons/PyChronos.png"))
 		self.setMinimumSize(250, 160)
 		self.resize(250, 450)
 		
@@ -97,6 +99,8 @@ class MainWindow(QMainWindow):
 		
 		# Timer servant à mettre à jour l'affichage des chronos continuellement (20 fois par seconde)
 		self.timer = QTimer()
+		
+		# noinspection PyUnresolvedReferences
 		self.timer.timeout.connect(lambda: update_timer(self))
 		start_timer(self, interval=50)
 		print("✅ Timer started.\n")
